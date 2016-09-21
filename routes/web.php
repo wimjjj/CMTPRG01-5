@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+Route::group(['middleware' => 'auth'], function(){
+	Route::get('/password', 'PasswordController@index');
+	Route::post('/password', 'PasswordController@update');
 });
+
+
+Route::get('/', 'HomeController@index');
