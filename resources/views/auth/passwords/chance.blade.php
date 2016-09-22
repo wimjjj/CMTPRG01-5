@@ -8,7 +8,7 @@
                 {{ csrf_field() }}
 				
 				<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="password-confirm" class="col-md-4 control-label">Old Password</label>
+                    <label for="password" class="col-md-4 control-label">Old Password</label>
   
                     <div class="col-md-6">
                         <input id="password" type="password" class="form-control" name="password" required>
