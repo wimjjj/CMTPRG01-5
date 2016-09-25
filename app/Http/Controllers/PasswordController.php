@@ -10,8 +10,7 @@ use Auth;
 class PasswordController extends Controller
 {
     public function index(){
-
-    	return view('auth.passwords.chance', compact('user'));
+    	return view('auth.passwords.chance');
     }
 
     public function update(Request $request){
