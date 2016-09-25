@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function ownParties(){
+        return $this->hasMany('Party');
+    }
+
+    public function attendedParties(){
+        return $this->belongsToMany('Party', 'attendees');
+    }
+
+    public function tasks(){
+        return $this->hasMany('Task');
+    }
 }
