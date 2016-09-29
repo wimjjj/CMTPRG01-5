@@ -20,5 +20,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile', 'ProfileController@update');
 });
 
+Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
+	Route::post('/', 'PartyController@create');
+	Route::get('/{id}', 'PartyController@show');
+});
+
 
 Route::get('/', 'HomeController@index');
