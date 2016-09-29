@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Auth;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -32,5 +33,11 @@ class ProfileController extends Controller
     	$user->save();
 
     	return back();
+    }
+
+    public function show($id){
+        $user = User::findOrFail($id);
+
+        return view('users.profile', compact('user'));
     }
 }

@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
 
     public function attendedParties(){
-        return $this->hasMany('App\Party', 'attendees');
+        return $this->belongsToMany('App\Party', 'attendees');
     }
 
     public function tasks(){
