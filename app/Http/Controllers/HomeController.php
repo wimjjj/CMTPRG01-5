@@ -24,8 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $parties = Auth::user()->ownParties;
+        $ownedParties = Auth::user()->ownParties;
 
-        return view('home', compact('parties'));
+        $attendedParties = Auth::user()->attendedParties;
+
+        return view('home', compact('ownedParties', 'attendedParties'));
     }
 }

@@ -7,9 +7,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	{{{ $party->name }}}
-                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/attend') }}}">
-                		join
-                	</a>
+                	@if(!$party->attendees->contains(Auth::user()))
+	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/attend') }}}">
+	                		join
+	                	</a>
+	                @endif
                 </div>
                 <div class="panel-body">
                 <p>{{{ $party->description }}}</p>
