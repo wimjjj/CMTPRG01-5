@@ -11,6 +11,10 @@
 	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/attend') }}}">
 	                		join
 	                	</a>
+	                @else
+	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/dontatted') }}}">
+	                		leave
+	                	</a>
 	                @endif
                 </div>
                 <div class="panel-body">

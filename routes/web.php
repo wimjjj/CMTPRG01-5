@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
 	Route::post('/', 'PartyController@create');
 	Route::get('/{id}', 'PartyController@show');
 	Route::get('/{id}/attend', 'PartyController@attend');
+	Route::get('/{id}/dontatted', 'PartyController@dontAttend');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){

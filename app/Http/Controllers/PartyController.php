@@ -38,4 +38,10 @@ class PartyController extends Controller
 
     	return Back();
     }
+
+    public function dontAttend($id){
+    	Auth::user()->attendedParties()->detach($id);
+
+    	return back();
+    }
 }
