@@ -7,13 +7,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	{{{ $party->name }}}
-                	@if(!$party->attendees->contains(Auth::user()))
-	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/attend') }}}">
-	                		join
-	                	</a>
-	                @else
-	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/dontatted') }}}">
-	                		leave
+                	@if($party->owner->id == Auth::id())
+	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/invite') }}}">
+	                		invite users
 	                	</a>
 	                @endif
                 </div>
