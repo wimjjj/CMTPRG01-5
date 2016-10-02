@@ -20,5 +20,19 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('/profile', 'ProfileController@update');
 });
 
+Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
+	Route::get('/new', 'PartyController@create');
+	Route::post('/', 'PartyController@store');
+	Route::get('/{id}', 'PartyController@show');
+	Route::get('/{id}/dontattend', 'PartyController@dontAttend');
+	Route::get('/{id}/invite', 'PartyController@showInvite');
+	Route::post('/{id}/invite', 'PartyController@inviteUsers');
+	Route::get('/{partid}/invite/{userid}', 'PartyController@invite');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){
+	Route::get('/{id}', 'ProfileController@show');
+});
+
 
 Route::get('/', 'HomeController@index');

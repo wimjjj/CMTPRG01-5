@@ -28,14 +28,14 @@ class User extends Authenticatable
     ];
 
     public function ownParties(){
-        return $this->hasMany('Party');
+        return $this->hasMany('App\Party', 'user_id');
     }
 
     public function attendedParties(){
-        return $this->belongsToMany('Party', 'attendees');
+        return $this->belongsToMany('App\Party', 'attendees');
     }
 
     public function tasks(){
-        return $this->hasMany('Task');
+        return $this->hasMany('App\Task');
     }
 }

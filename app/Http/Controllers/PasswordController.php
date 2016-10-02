@@ -9,10 +9,19 @@ use Auth;
 
 class PasswordController extends Controller
 {
+    /**
+     * shows the form for chancing your password
+     * @return \Illuminate\Http\Response
+     */
     public function index(){
     	return view('auth.passwords.chance');
     }
 
+    /**
+     * updates the password
+     * @param  Request $request [description]
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request){
     	$this->validate($request, [
     		'password' => 'required',
@@ -21,6 +30,7 @@ class PasswordController extends Controller
 
     	$user = Auth::user();
 
+        // if the users has not entered his old password correctly, we send him back with an error
     	if (!Hash::check($request->input('password'), $user->password)){
     		return back()->withInput()->withErrors(['password' => "Your password doesn't match"]);
     	}

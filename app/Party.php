@@ -1,8 +1,6 @@
 <?php
 
 namespace App;
-use User;
-use Task;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,14 +11,14 @@ class Party extends Model
     ];
 
     public function owner(){
-    	return $this->belongsTo('User');
+    	return $this->belongsTo('App\User', 'user_id');
     }
 
     public function attendees(){
-    	return $this->belongsToMany('User', 'attendees');
+    	return $this->belongsToMany('App\User', 'attendees');
     }
 
     public function tasks(){
-    	return $this->hasMany('Task');
+    	return $this->hasMany('App\Task');
     }
 }
