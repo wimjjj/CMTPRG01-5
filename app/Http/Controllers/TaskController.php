@@ -9,8 +9,42 @@ use Auth;
 use App\user;
 use App\Party;
 
+//TO-DO: refactor the checks on the id's!!!
+
 class TaskController extends Controller
 {
+    /**
+     * shows the tasks that belong to a given party
+     * @param  int $id      id of the party 
+     * @return \Illuminate\Http\Response
+     */
+    public function index($id){
+        $party = Party::findOrFail($id);
+
+        // checks if the user belongs to the party the task is part of
+        // an user should only be able to see tasks that belongs to a party where he belongs to
+        if(!($task->party->atteendees->contain(Auth::user()) || 
+           !$task->party->owner->id == Auth::id())) return back();
+
+        return view('tasks.index', compact('party'));
+    }
+
+    /**
+     * shows a taks
+     * @param  int $id      id of the task
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id){
+        $task = Task::findOrFail($id);
+
+        // checks if the user belongs to the party the task is part of
+        // an user should only be able to see tasks that belongs to a party where he belongs to
+        if(!($task->party->atteendees->contain(Auth::user()) || 
+           !$task->party->owner->id == Auth::id())) return back();
+
+        return view('tasks.details', compact('task'));
+    }
+
 	/**
 	 * shows the form for creating a new task
 	 * @param  int $id 		id of the party the task belongs to

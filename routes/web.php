@@ -31,9 +31,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
 	Route::get('/{partid}/invite/{userid}', 'PartyController@invite');
 	Route::get('/{id}/addtask', 'TaskController@create');
 	Route::post('/{id}/storetask', 'TaskController@store');
+	Route::get('/{id}/tasks', 'TaskController@index');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
+	Route::get('/{id}', 'TaskController@show');
 	Route::get('/{id}/edit', 'TaskController@edit');
 	Route::post('/{id}', 'TaskController@update');
 	Route::get('/{id}/claim', 'TaskController@claim');
