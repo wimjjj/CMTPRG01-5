@@ -11,11 +11,19 @@ use App\User;
 class PartyController extends Controller
 {
     /**
+     * shows the form for creating a new party
+     * @return [type] [description]
+     */
+    public function create(){
+        return view('parties.new');
+    }
+
+    /**
      * creates a new Party
      * @param  Request $request
-     * @return rediricts to prev page
+     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request){
+    public function store(Request $request){
     	$this->validate($request, ['name' => 'required|max:50',
     							   'description' => 'required|max:255']);
 
@@ -24,13 +32,13 @@ class PartyController extends Controller
 
     	$party->save();
 
-    	return Back();
+    	return redirect('/party/' . $party->id);
     }
 
     /**
      * shows a single party
      * @param  id $id [description]
-     * @return [type]     [description]
+     * @return \Illuminate\Http\Response
      */
     public function show($id){
     	$party = Party::findOrFail($id);
@@ -43,7 +51,7 @@ class PartyController extends Controller
     /**
      * binds an user to a party
      * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @return \Illuminate\Http\Response
      */
     public function attend($id){
     	$party = Party::findOrFail($id);
@@ -58,7 +66,7 @@ class PartyController extends Controller
     /**
      * detachs an user from a party
      * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @return \Illuminate\Http\Response
      */
     public function dontAttend($id){
     	Auth::user()->attendedParties()->detach($id);
@@ -70,7 +78,7 @@ class PartyController extends Controller
      * lets te owner of a party searchs for users and invite them
      * @param  Request $request [description]
      * @param  [type]  $id      id of the party
-     * @return [type]           [description]
+     * @return \Illuminate\Http\Response
      */
     public function inviteUsers(Request $request, $id){
         $party = Party::findOrFail($id);
@@ -92,12 +100,12 @@ class PartyController extends Controller
     /**
      * shows the screen where the users can search for people
      * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @return \Illuminate\Http\Response
      */
     public function showInvite($id){
         $party = Party::findOrFail($id);
 
-        if($party->owner->id != Auth::id()) return redirect('/');
+        if($party->owner->id != Auth::id()) return back();
 
         return view('parties.addusers', compact('party'));
     }
@@ -106,12 +114,20 @@ class PartyController extends Controller
      * sends the invite to an user
      * @param  [type] $partyid id of the party
      * @param  [type] $userid  id of the user
-     * @return [type]          [description]
+     * @return \Illuminate\Http\Response
      */
     public function invite($partyid, $userid){
-        $user::findOrFail($userid);
-        $party::findOrFail($partyid);
+        $user = User::findOrFail($userid);
+        $party = Party::findOrFail($partyid);
 
+        if($party->owner->id != Auth::id()) return back();
 
+        //you cant invite yourself
+        if($party->attendees->contains(Auth::id())) return back();
+
+        if(!$user->attendedParties->contains($party))
+            $user->attendedParties()->attach($party);
+
+        return back();
     }
 }   

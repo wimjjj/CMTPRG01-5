@@ -12,6 +12,10 @@
 	                		invite users
 	                	</a>
 	                @endif
+	                @if($party->attendees->contains(Auth::id()))
+	                	<a class="pull-right" href="{{ url('party/' . $party->id . '/dontattend') }}">leave
+	                	</a>
+	                @endif
                 </div>
                 <div class="panel-body">
                 <p>{{{ $party->description }}}</p>
