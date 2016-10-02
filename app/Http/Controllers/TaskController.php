@@ -23,8 +23,8 @@ class TaskController extends Controller
 
         // checks if the user belongs to the party the task is part of
         // an user should only be able to see tasks that belongs to a party where he belongs to
-        if(!($task->party->atteendees->contain(Auth::user()) || 
-           !$task->party->owner->id == Auth::id())) return back();
+        // if(!($task->party->attendees->contains(Auth::user()) || 
+        //    $task->party->owner->id == Auth::id())) return back();
 
         return view('tasks.index', compact('party'));
     }
@@ -39,8 +39,8 @@ class TaskController extends Controller
 
         // checks if the user belongs to the party the task is part of
         // an user should only be able to see tasks that belongs to a party where he belongs to
-        if(!($task->party->atteendees->contain(Auth::user()) || 
-           !$task->party->owner->id == Auth::id())) return back();
+        // if(!($task->party->attendees->contains(Auth::user()) || 
+        //    !$task->party->owner->id == Auth::id())) return back();
 
         return view('tasks.details', compact('task'));
     }
@@ -121,8 +121,8 @@ class TaskController extends Controller
 
     	// checks if the user belongs to the party the task is part of
     	// an user should only be able to claim task that belongs to a party where he belongs to
-    	if(!($task->party->atteendees->contain(Auth::user()) || 
-    	   !$task->party->owner->id == Auth::id())) return back(); 
+    	// if(!($task->party->attendees->contains(Auth::user()) || 
+    	//    !$task->party->owner->id == Auth::id())) return back(); 
 
     	$task->user_id = Auth::id();
     	$task->save();
