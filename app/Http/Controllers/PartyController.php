@@ -49,21 +49,6 @@ class PartyController extends Controller
     }
 
     /**
-     * binds an user to a party
-     * @param  [type] $id [description]
-     * @return \Illuminate\Http\Response
-     */
-    public function attend($id){
-    	$party = Party::findOrFail($id);
-    	$user = Auth::user();
-
-    	if(!$user->attendedParties->contains($party))
-    		$user->attendedParties()->attach($party);
-
-    	return Back();
-    }
-
-    /**
      * detachs an user from a party
      * @param  [type] $id [description]
      * @return \Illuminate\Http\Response
