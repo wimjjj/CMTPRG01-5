@@ -12,6 +12,7 @@
 */
 
 Auth::routes();
+
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('/password', 'PasswordController@index');
 	Route::post('/password', 'PasswordController@update');
@@ -28,6 +29,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
 	Route::get('/{id}/invite', 'PartyController@showInvite');
 	Route::post('/{id}/invite', 'PartyController@inviteUsers');
 	Route::get('/{partid}/invite/{userid}', 'PartyController@invite');
+	Route::get('/{id}/addtask', 'TaskController@create');
+	Route::post('/{id}/storetask', 'TaskController@store');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
+	Route::get('/{id}/edit', 'TaskController@edit');
+	Route::post('/{id}', 'TaskController@update');
+	Route::get('/{id}/claim', 'TaskController@claim');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){

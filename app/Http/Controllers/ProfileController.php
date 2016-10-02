@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use Auth;
 use App\User;
@@ -50,7 +49,7 @@ class ProfileController extends Controller
 
     /**
      * shows the profile of a given user
-     * @param  int  $id   id of the user you want to show
+     * @param  int  $id     id of the user you want to show
      * @return \Illuminate\Http\Response
      */
     public function show($id){

@@ -8,12 +8,18 @@
                 <div class="panel-heading">
                 	{{{ $party->name }}}
                 	@if($party->owner->id == Auth::id())
-	                	<a class="pull-right" href="{{{ url('party/' . $party->id . '/invite') }}}">
-	                		invite users
-	                	</a>
+	                	<p class="pull-right">
+	                		<a href="{{{ url('party/' . $party->id . '/invite') }}}">
+	                			invite users
+	                		</a>
+	                		 or 
+	                		<a href="{{ url('party/' . $party->id . '/addtask') }}">
+	                			add task
+	                		</a>
+	                	</p>
 	                @endif
 	                @if($party->attendees->contains(Auth::id()))
-	                	<a class="pull-right" href="{{ url('party/' . $party->id . '/dontattend') }}">leave
+	                	<a class="pull-right"href="{{ url('party/' . $party->id . '/dontattend') }}">leave
 	                	</a>
 	                @endif
                 </div>

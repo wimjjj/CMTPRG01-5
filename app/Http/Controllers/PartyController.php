@@ -37,7 +37,7 @@ class PartyController extends Controller
 
     /**
      * shows a single party
-     * @param  id $id [description]
+     * @param  id $id       id of the party
      * @return \Illuminate\Http\Response
      */
     public function show($id){
@@ -50,7 +50,7 @@ class PartyController extends Controller
 
     /**
      * detachs an user from a party
-     * @param  [type] $id [description]
+     * @param  int $id      id of the party
      * @return \Illuminate\Http\Response
      */
     public function dontAttend($id){
@@ -84,7 +84,7 @@ class PartyController extends Controller
 
     /**
      * shows the screen where the users can search for people
-     * @param  [type] $id [description]
+     * @param  int $id      id of the party
      * @return \Illuminate\Http\Response
      */
     public function showInvite($id){
@@ -97,8 +97,8 @@ class PartyController extends Controller
 
     /**
      * sends the invite to an user
-     * @param  [type] $partyid id of the party
-     * @param  [type] $userid  id of the user
+     * @param  int $partyid         id of the party
+     * @param  int $userid          id of the user
      * @return \Illuminate\Http\Response
      */
     public function invite($partyid, $userid){
