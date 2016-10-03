@@ -113,6 +113,6 @@ class PartyController extends Controller
         if(!$user->attendedParties->contains($party))
             $user->attendedParties()->attach($party);
 
-        return back();
+        return redirect('/party/' . $party->id . '/invite');
     }
 }   
