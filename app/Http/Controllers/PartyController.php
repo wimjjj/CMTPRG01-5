@@ -79,7 +79,7 @@ class PartyController extends Controller
             ->take(10)
             ->get();
         
-        return view('parties.addusers', compact('party', 'users'));
+        return view('parties.addusers', compact('party', 'users', 'keyword'));
     }
 
     /**
@@ -108,7 +108,7 @@ class PartyController extends Controller
         if($party->owner->id != Auth::id()) return back();
 
         //you cant invite yourself
-        if($party->attendees->contains(Auth::id())) return back();
+        if($userid == Auth::id()) return back();
 
         if(!$user->attendedParties->contains($party))
             $user->attendedParties()->attach($party);

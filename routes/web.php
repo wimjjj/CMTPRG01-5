@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
 	Route::get('/{id}/edit', 'TaskController@edit');
 	Route::post('/{id}', 'TaskController@update');
 	Route::get('/{id}/claim', 'TaskController@claim');
+	Route::get('/{id}/delete', 'TaskController@delete');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){

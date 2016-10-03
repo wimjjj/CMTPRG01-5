@@ -12,9 +12,13 @@
 	                		<a href="{{{ url('party/' . $party->id . '/invite') }}}">
 	                			invite users
 	                		</a>
-	                		 or 
+	                		 |
+	                		<a href="{{ url('party/' . $party->id . '/tasks') }}">
+	                			tasks
+	                		</a>
+	                		 |
 	                		<a href="{{ url('party/' . $party->id . '/addtask') }}">
-	                			add task
+	                			add tasks
 	                		</a>
 	                	</p>
 	                @endif

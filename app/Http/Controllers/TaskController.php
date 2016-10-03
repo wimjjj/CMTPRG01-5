@@ -21,6 +21,8 @@ class TaskController extends Controller
     public function index($id){
         $party = Party::findOrFail($id);
 
+        $party->with('tasks', 'owner');
+
         // checks if the user belongs to the party the task is part of
         // an user should only be able to see tasks that belongs to a party where he belongs to
         // if(!($task->party->attendees->contains(Auth::user()) || 
@@ -128,5 +130,18 @@ class TaskController extends Controller
     	$task->save();
 
     	return back();
+    }
+
+    /**
+     * deletes a task
+     * @param  int $id      id of the task
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id){
+        $task = Task::findOrFail($id);
+
+        $task->delete();
+
+        return redirect('/party/' . $task->party->id . '/tasks');
     }
 }

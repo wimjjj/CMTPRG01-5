@@ -14,7 +14,7 @@
 		                    <label for="keyword" class="col-md-4 control-label">search</label>
 		  
 		                    <div class="col-md-6">
-		                        <input id="keyword" type="text" class="form-control" name="keyword" required value="{{{ old('keyword') }}}">
+		                        <input id="keyword" type="text" class="form-control" name="keyword" required value="{{{ isset($keyword) ? $keyword : old('keyword') }}}">
 
 		                        @if ($errors->has('keyword'))
 		                            <span class="help-block">
@@ -33,20 +33,20 @@
 		                </div>
 		            </form>
 				</div>
-				@if(isset($users))
-					<div class="panel panel-default">
-			            <div class="panel-heading">results</div>
-			            <div class="panel-body">
-			            	@foreach($users as $user)
-			            		<a href="{{ url('/party/' . $party->id . '/invite/' . $user->id) }}">
-				          			<p><b>name:</b> {{{ $user->name }}} <br>
-				          			<b>email:</b> {{{ $user->email }}}</p>
-				          		</a>
-			          		@endforeach
-						</div>
-			        </div>
-		        @endif
-		    </div>
+			</div>
+			@if(isset($users))
+				<div class="panel panel-default">
+			        <div class="panel-heading">results</div>
+			        <div class="panel-body">
+			           	@foreach($users as $user)
+			            	<a href="{{ url('/party/' . $party->id . '/invite/' . $user->id) }}">
+				          		<p><b>name:</b> {{{ $user->name }}} <br>
+				          		<b>email:</b> {{{ $user->email }}}</p>
+				          	</a>
+			          	@endforeach
+					</div>
+			    </div>
+		    @endif
 		</div>
 	</div>
 </div>
