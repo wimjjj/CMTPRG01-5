@@ -13,8 +13,8 @@
 						</a>
 					@endif
 					
-					<b>name:</b> {{{ $user->name }}}<br>
-					<b>email:</b> {{{ $user->email }}}
+					<p><b>name:</b> {{{ $user->name }}}</p>
+					<p><b>email:</b> {{{ $user->email }}}</p>
 				</div>
 			</div>
         </div>

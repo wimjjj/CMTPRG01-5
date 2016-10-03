@@ -37,7 +37,7 @@ class PartyController extends Controller
 
     /**
      * shows a single party
-     * @param  id $id [description]
+     * @param  id $id       id of the party
      * @return \Illuminate\Http\Response
      */
     public function show($id){
@@ -49,23 +49,8 @@ class PartyController extends Controller
     }
 
     /**
-     * binds an user to a party
-     * @param  [type] $id [description]
-     * @return \Illuminate\Http\Response
-     */
-    public function attend($id){
-    	$party = Party::findOrFail($id);
-    	$user = Auth::user();
-
-    	if(!$user->attendedParties->contains($party))
-    		$user->attendedParties()->attach($party);
-
-    	return Back();
-    }
-
-    /**
      * detachs an user from a party
-     * @param  [type] $id [description]
+     * @param  int $id      id of the party
      * @return \Illuminate\Http\Response
      */
     public function dontAttend($id){
@@ -94,12 +79,12 @@ class PartyController extends Controller
             ->take(10)
             ->get();
         
-        return view('parties.addusers', compact('party', 'users'));
+        return view('parties.addusers', compact('party', 'users', 'keyword'));
     }
 
     /**
      * shows the screen where the users can search for people
-     * @param  [type] $id [description]
+     * @param  int $id      id of the party
      * @return \Illuminate\Http\Response
      */
     public function showInvite($id){
@@ -112,8 +97,8 @@ class PartyController extends Controller
 
     /**
      * sends the invite to an user
-     * @param  [type] $partyid id of the party
-     * @param  [type] $userid  id of the user
+     * @param  int $partyid         id of the party
+     * @param  int $userid          id of the user
      * @return \Illuminate\Http\Response
      */
     public function invite($partyid, $userid){
@@ -123,7 +108,7 @@ class PartyController extends Controller
         if($party->owner->id != Auth::id()) return back();
 
         //you cant invite yourself
-        if($party->attendees->contains(Auth::id())) return back();
+        if($userid == Auth::id()) return back();
 
         if(!$user->attendedParties->contains($party))
             $user->attendedParties()->attach($party);
