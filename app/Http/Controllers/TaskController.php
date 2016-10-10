@@ -114,8 +114,7 @@ class TaskController extends Controller
 
     	$this->validate($request, ['description' => 'required|max:255']);
 
-    	$task->description = $request->input('description');
-    	$task->save();
+    	$task->update($request->all());
 
     	return back();
     }
@@ -133,7 +132,10 @@ class TaskController extends Controller
     	// if(!($task->party->attendees->contains(Auth::user()) || 
     	//    !$task->party->owner->id == Auth::id())) return back(); 
 
-    	$task->user_id = Auth::id();
+        //check if task if already claimed
+        if($task->user) return back();
+    	
+        $task->user_id = Auth::id();
     	$task->save();
 
     	return back();

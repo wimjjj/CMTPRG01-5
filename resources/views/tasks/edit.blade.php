@@ -5,7 +5,13 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Add Task</div>
+                <div class="panel-heading">
+                    Edit Task
+                    
+                    <a class="pull-right" href="{{ url('task/' . $task->id) }}">
+                        task
+                    </a>
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/task/' . $task->id) }}">
                         {{ csrf_field() }}

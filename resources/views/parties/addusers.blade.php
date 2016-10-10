@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                	Invite users to: <em>{{{ $party->name }}}</em>
+                	Invite users to: {{{ $party->name }}}
 					
 					<a class="pull-right" href="{{ url('party/' . $party->id) }}">
 						party
