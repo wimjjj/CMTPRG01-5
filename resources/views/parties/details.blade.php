@@ -29,7 +29,7 @@
                 </div>
                 <div class="panel-body">
                 <p>{{{ $party->description }}}</p>
-				
+				<hr>
 				<h4>attendees</h4>
 				<ul>
 					@foreach($party->attendees as $user)
@@ -40,6 +40,7 @@
 						</a>
 					@endforeach
 				</ul>
+				<p><a href="#">all attendees</a></p>
                 <em>organised by <a href="{{ url('users/' . $party->owner->id) }}">
            	     	{{{ $party->owner->name }}} </a></em>
            	</div>

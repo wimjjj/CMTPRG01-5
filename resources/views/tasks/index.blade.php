@@ -20,13 +20,15 @@
                     </p>                  
                 </div>
                 <div class="panel-body">
+                <ul>
                     @foreach($party->tasks as $tasks)
-                            <p>
+                            <li>
                                 <a href="{{ url('/task/' . $tasks->id) }}">
                                     {{{ $tasks->description}}}
                                 </a>
-                            </p>
+                            </li>
                     @endforeach
+                </ul>
                 </div>
             </div>
         </div>

@@ -43,7 +43,9 @@ class PartyController extends Controller
     public function show($id){
     	$party = Party::findOrFail($id);
 
-    	$party->with('owner', 'attendees')->get();
+    	$party->load(['owner', 'attendees' => function($query){
+            $query->orderBy('attendees.created_at', 'desc')->take(3);
+        }])->get();
 
     	return view('parties.details', compact('party'));
     }
@@ -110,6 +112,7 @@ class PartyController extends Controller
         //you cant invite yourself
         if($userid == Auth::id()) return back();
 
+        //don't invite an user twice!
         if(!$user->attendedParties->contains($party))
             $user->attendedParties()->attach($party);
 
