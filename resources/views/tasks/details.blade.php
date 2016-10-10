@@ -7,8 +7,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	Task
-                	@if($task->party->owner->id == Auth::id())
-                		<p class="pull-right">
+                	
+                	<p class="pull-right">
+	                	@if($task->party->owner->id == Auth::id())
 							<a href="{{ url('/task/' . $task->id . '/edit') }}">
 								edit
 							</a>
@@ -16,8 +17,18 @@
 							<a href="{{ url('/task/' . $task->id . '/delete') }}">
 								delete
 							</a>
-						</p>
-					@endif
+						@endif
+						
+						@if($task->party->owner->id == Auth::id() && !$task->user)
+							 | 
+						@endif
+
+						@if(!$task->user)
+							<a href="{{ url('task/' . $task->id . '/claim') }}">
+								claim
+							</a>
+						@endif
+					</p>
                 </div>
                 <div class="panel-body">
 					<p><b>description:</b> {{{ $task->description }}}</p>

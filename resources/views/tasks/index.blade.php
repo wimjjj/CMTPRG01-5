@@ -21,11 +21,14 @@
                 </div>
                 <div class="panel-body">
                 <ul>
-                    @foreach($party->tasks as $tasks)
+                    @foreach($party->tasks as $task)
                             <li>
-                                <a href="{{ url('/task/' . $tasks->id) }}">
-                                    {{{ $tasks->description}}}
+                                <a href="{{ url('/task/' . $task->id) }}">
+                                    {{{ $task->description}}}
                                 </a>
+                                @if($task->user)
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                @endif
                             </li>
                     @endforeach
                 </ul>
