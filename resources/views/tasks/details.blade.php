@@ -9,6 +9,14 @@
                 	Task
                 	
                 	<p class="pull-right">
+                		<a href="{{ url('party/' . $task->party->id . '/tasks') }}">
+							tasks
+						</a>
+
+						@if($task->party->owner->id == Auth::id() || !$task->user)
+							 | 
+						@endif
+
 	                	@if($task->party->owner->id == Auth::id())
 							<a href="{{ url('/task/' . $task->id . '/edit') }}">
 								edit

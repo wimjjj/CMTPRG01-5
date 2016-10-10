@@ -19,16 +19,24 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($id){
-        $party = Party::findOrFail($id);
+        $tasks = Task::where('party_id', $id)
+            ->orderBy('user_id', 'asc')
+            ->with('user', 'party')
+            ->paginate(10);
 
-        $party->with('tasks', 'owner');
+        if($tasks[0]){
+            $party = $tasks[0]->party;
+        }
+        else {
+            $party = Party::findOrFail($id);
+        }
 
         // checks if the user belongs to the party the task is part of
         // an user should only be able to see tasks that belongs to a party where he belongs to
         // if(!($task->party->attendees->contains(Auth::user()) || 
         //    $task->party->owner->id == Auth::id())) return back();
 
-        return view('tasks.index', compact('party'));
+        return view('tasks.index', compact('tasks', 'party'));
     }
 
     /**
@@ -73,12 +81,11 @@ class TaskController extends Controller
 
     	$this->validate($request, ['description' => 'required|max:255']);
 
-    	$task = new Task(['description' => $request->input('description'),
+    	$task = Task::create(['description' => $request->input('description'),
                           'party_id' => $party->id,
                           'user_id' => null]);
-        $task->save();
 
-    	return redirect('/party/' . $party->id);
+    	return redirect('/task/' . $task->id);
     }
 
     /**

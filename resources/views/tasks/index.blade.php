@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Tasks for {{{ $party->name }}}
+                    Tasks for: {{{ $party->name }}}
                     <p class="pull-right">
                         <a href="{{ url('/party/' . $party->id) }}">
                             party
@@ -20,18 +20,23 @@
                     </p>                  
                 </div>
                 <div class="panel-body">
-                <ul>
-                    @foreach($party->tasks as $task)
-                            <li>
-                                <a href="{{ url('/task/' . $task->id) }}">
-                                    {{{ $task->description}}}
+                    @foreach($tasks as $task)
+                        <div>
+                            <a class="pull-right" href="{{ url('/task/' . $task->id) }}">details</a>
+                            <p> {{{ $task->description }}} </p>
+                            taken by: 
+                            @if($task->user)
+                                {{{ $task->user->name }}}
+                            @else
+                                <a class="pull-right" href="{{ url('/task/' . $task->id. '/claim') }}">
+                                    claim
                                 </a>
-                                @if($task->user)
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                @endif
-                            </li>
+                                none one yet
+                            @endif
+                            <hr>
+                        </div>
                     @endforeach
-                </ul>
+                    {{ $tasks->links() }}
                 </div>
             </div>
         </div>
