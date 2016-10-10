@@ -47,6 +47,8 @@ class PartyController extends Controller
             $query->orderBy('attendees.created_at', 'desc')->take(3);
         }])->get();
 
+        $this->authorize('view', $party);
+
     	return view('parties.details', compact('party'));
     }
 
@@ -70,7 +72,7 @@ class PartyController extends Controller
     public function inviteUsers(Request $request, $id){
         $party = Party::findOrFail($id);
 
-        if($party->owner->id != Auth::id()) return redirect('/');
+        $this->authorize('isOwner', $party);
 
         $this->validate($request, ['keyword' => 'required|max:255']);
 
@@ -92,7 +94,7 @@ class PartyController extends Controller
     public function showInvite($id){
         $party = Party::findOrFail($id);
 
-        if($party->owner->id != Auth::id()) return back();
+        $this->authorize('isOwner', $party);
 
         return view('parties.addusers', compact('party'));
     }
@@ -107,7 +109,7 @@ class PartyController extends Controller
         $user = User::findOrFail($userid);
         $party = Party::findOrFail($partyid);
 
-        if($party->owner->id != Auth::id()) return back();
+        $this->authorize('isOwner', $party);
 
         //you cant invite yourself
         if($userid == Auth::id()) return back();

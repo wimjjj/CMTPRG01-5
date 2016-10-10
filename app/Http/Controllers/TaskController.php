@@ -9,8 +9,6 @@ use Auth;
 use App\user;
 use App\Party;
 
-//TO-DO: refactor the checks on the id's!!!
-
 class TaskController extends Controller
 {
     /**
@@ -31,10 +29,7 @@ class TaskController extends Controller
             $party = Party::findOrFail($id);
         }
 
-        // checks if the user belongs to the party the task is part of
-        // an user should only be able to see tasks that belongs to a party where he belongs to
-        // if(!($task->party->attendees->contains(Auth::user()) || 
-        //    $task->party->owner->id == Auth::id())) return back();
+        $this->authorize('view', $party);
 
         return view('tasks.index', compact('tasks', 'party'));
     }
@@ -47,10 +42,7 @@ class TaskController extends Controller
     public function show($id){
         $task = Task::findOrFail($id);
 
-        // checks if the user belongs to the party the task is part of
-        // an user should only be able to see tasks that belongs to a party where he belongs to
-        // if(!($task->party->attendees->contains(Auth::user()) || 
-        //    !$task->party->owner->id == Auth::id())) return back();
+        $this->authorize('show', $task);
 
         return view('tasks.details', compact('task'));
     }
@@ -63,7 +55,7 @@ class TaskController extends Controller
     public function create($id){
     	$party = Party::findOrFail($id);
 
-    	if($party->owner->id != Auth::id()) return back();
+        $this->authorize('createTasks', $party);
 
     	return view('tasks.new', compact('party'));
     }
@@ -77,7 +69,7 @@ class TaskController extends Controller
     public function store(Request $request, $id){
     	$party = Party::findOrFail($id);
 
-    	if($party->owner->id != Auth::id()) return back();
+    	$this->authorize('createTasks', $party);
 
     	$this->validate($request, ['description' => 'required|max:255']);
 
@@ -96,7 +88,7 @@ class TaskController extends Controller
     public function edit($id){
     	$task = Task::findOrFail($id);
 
-    	if($task->party->owner->id != Auth::id()) return back();
+        $this->authorize('edit', $task);
 
     	return view('tasks.edit', compact('task'));
     }
@@ -110,7 +102,7 @@ class TaskController extends Controller
     public function update(Request $request, $id){
     	$task = Task::findOrFail($id);
 
-    	if($task->party->owner->id != Auth::id()) return back();
+    	$this->authorize('edit', $task);
 
     	$this->validate($request, ['description' => 'required|max:255']);
 
@@ -127,10 +119,7 @@ class TaskController extends Controller
     public function claim($id){
     	$task = Task::findOrFail($id);
 
-    	// checks if the user belongs to the party the task is part of
-    	// an user should only be able to claim task that belongs to a party where he belongs to
-    	// if(!($task->party->attendees->contains(Auth::user()) || 
-    	//    !$task->party->owner->id == Auth::id())) return back(); 
+    	$this->authorize('show', $task);
 
         //check if task if already claimed
         if($task->user) return back();
@@ -149,6 +138,8 @@ class TaskController extends Controller
     public function delete($id){
         $task = Task::findOrFail($id);
 
+        $this->authorize('delete', $task);
+        
         $task->delete();
 
         return redirect('/party/' . $task->party->id . '/tasks');
