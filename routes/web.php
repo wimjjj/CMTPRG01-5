@@ -46,5 +46,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){
 	Route::get('/{id}', 'ProfileController@show');
 });
 
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function(){
+	Route::get('/', 'AdminController@index');
+	Route::get('/users', 'AdminController@users');
+	Route::post('/users/{user}/ban', 'AdminController@ban');
+	Route::get('/parties', 'AdminController@parties');
+	ROute::post('/parties/delete', 'AdminController@deleteParty');
+});
+
 
 Route::get('/', 'HomeController@index');
