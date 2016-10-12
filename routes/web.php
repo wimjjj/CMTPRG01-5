@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){
-	Route::get('/{id}', 'ProfileController@show');
+	Route::get('/{id}', 'ProfileController@show')->name('profile');
 });
 
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(){
@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(
 	Route::get('/users', 'AdminController@users')->name('admin.users');
 	Route::post('/users/ban', 'AdminController@ban')->name('admin.ban');
 	Route::get('/parties', 'AdminController@parties')->name('admin.parties');
-	ROute::post('/parties/delete', 'AdminController@deleteParty')->name('admin.party.delete');
+	ROute::post('/parties/delete', 'AdminController@deleteParty')->name('admin.parties.delete');
 });
 
 
