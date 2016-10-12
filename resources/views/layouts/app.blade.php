@@ -63,12 +63,12 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ url('/profile') }}">
+                                    <a href="{{ route('profile.me') }}">
                                         Profile
                                     </a>
                                 <li>
                                 <li>
-                                    <a href="{{ url('/password') }}">
+                                    <a href="{{ route('password') }}">
                                         Update password
                                     </a>
                                 </li>

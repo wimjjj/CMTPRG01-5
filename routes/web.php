@@ -14,32 +14,32 @@
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
-	Route::get('/password', 'PasswordController@index');
-	Route::post('/password', 'PasswordController@update');
-	Route::get('/profile', 'ProfileController@index');
-	Route::get('/profile/edit', 'ProfileController@edit');
-	Route::post('/profile', 'ProfileController@update');
+	Route::get('/password', 'PasswordController@index')->name('password');
+	Route::post('/password', 'PasswordController@update')->name('password');
+	Route::get('/profile', 'ProfileController@index')->name('profile.me');
+	Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit');
+	Route::post('/profile', 'ProfileController@update')->name('profile.me');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
-	Route::get('/new', 'PartyController@create');
-	Route::post('/', 'PartyController@store');
-	Route::get('/{id}', 'PartyController@show');
-	Route::get('/{id}/dontattend', 'PartyController@dontAttend');
-	Route::get('/{id}/invite', 'PartyController@showInvite');
-	Route::post('/{id}/invite', 'PartyController@inviteUsers');
-	Route::get('/{partid}/invite/{userid}', 'PartyController@invite');
-	Route::get('/{id}/addtask', 'TaskController@create');
-	Route::post('/{id}/storetask', 'TaskController@store');
-	Route::get('/{id}/tasks', 'TaskController@index');
+	Route::get('/new', 'PartyController@create')->name('party.new');
+	Route::post('/', 'PartyController@store')->name('party');
+	Route::get('/{id}', 'PartyController@show')->name('party.show');
+	Route::get('/{id}/dontattend', 'PartyController@dontAttend')->name('party.leave');
+	Route::get('/{id}/invite', 'PartyController@showInvite')->name('party.invite');
+	Route::post('/{id}/invite', 'PartyController@inviteUsers')->name('party.invite');
+	Route::get('/{partid}/invite/{userid}', 'PartyController@invite')->name('party.invite.send');
+	Route::get('/{id}/addtask', 'TaskController@create')->name('party.tasks.new');
+	Route::post('/{id}/storetask', 'TaskController@store')->name('party.tasks.store');
+	Route::get('/{id}/tasks', 'TaskController@index')->name('party.tasks');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
-	Route::get('/{id}', 'TaskController@show');
-	Route::get('/{id}/edit', 'TaskController@edit');
-	Route::post('/{id}', 'TaskController@update');
-	Route::get('/{id}/claim', 'TaskController@claim');
-	Route::get('/{id}/delete', 'TaskController@delete');
+	Route::get('/{id}', 'TaskController@show')->name('task');
+	Route::get('/{id}/edit', 'TaskController@edit')->name('task.edit');
+	Route::post('/{id}', 'TaskController@update')->name('task.update');
+	Route::get('/{id}/claim', 'TaskController@claim')->name('task.claim');
+	Route::get('/{id}/delete', 'TaskController@delete')->name('task.delete');		//CHANCE TO POST
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){
