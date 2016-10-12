@@ -27,6 +27,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function isBanned(){
+        return $this->access == -1;
+    }
+
+    public function ban(){
+        $this->access = -1;
+        $this->save();
+    }
+
+    public function grandAcces(){
+        $this->access = 0;
+        $this->save();
+    }
+
+    public function isAdmin(){
+        return $this->access == 1;
+    }
+
     public function ownParties(){
         return $this->hasMany('App\Party', 'user_id');
     }

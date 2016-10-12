@@ -27,13 +27,13 @@ class AdminController extends Controller
     	return view('admin.users', compact('users'));
     }
 
-    /**
-     * ban an user
-     * @param  User   $user  	the banned users
-     * @return \Illuminate\Http\Response
-     */
-    public function ban(User $user){
-    	$user->ban();
+    public function ban(Request $request){
+    	$user = User::findOrFail($request->input('user'));
+
+        if(!$user->isBanned())
+            $user->ban();
+        else
+            $user->grandAcces();
 
     	return back();
     }
@@ -49,12 +49,14 @@ class AdminController extends Controller
     }
 
     /**
-     * delete a party
-     * @param  Party  $party 	the party you want to deletegi
+     * deletes an party
+     * @param  Request $request [description]
      * @return \Illuminate\Http\Response
      */
-    public function deleteParty(Party $party){
-    	$party->delete();
+    public function deleteParty(Request $request){
+    	$party = Party::findOrFail($request->input('party'));
+
+        $party->delete();
 
     	return back();
     }

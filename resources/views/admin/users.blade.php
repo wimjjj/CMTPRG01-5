@@ -19,8 +19,18 @@
                             <tr>
                                 <td>{{{ $user->name }}}</td>
                                 <td>{{{ $user->email }}}</td>
-                                <td>not banned</td>
-                                <td><a href="#">ban</a></td>
+                                <td>
+                                    {{ $user->isBanned() ? 'banned' : 'not banned' }}
+                                </td>
+                                <td>
+                                    <form method="post" action="{{ route('admin.ban') }}">
+                                        <input type="hidden" name="user" value="{{ $user->id }}">
+                                        {{ csrf_field() }}
+                                        <input type="submit" 
+                                            value="{{ $user->isBanned() ? 'grand access' : 'ban' }}"
+                                            class="btn btn-danger">
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
