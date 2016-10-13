@@ -22,7 +22,7 @@
                                 <td>
                                     {{ $user->isBanned() ? 'banned' : 'not banned' }}
                                 </td>
-                                <td>
+                                <td style="width: 200px;">
                                     <form method="post" action="{{ route('admin.ban') }}">
                                         <input type="hidden" name="user" value="{{ $user->id }}">
                                         {{ csrf_field() }}
