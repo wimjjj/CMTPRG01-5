@@ -12,7 +12,7 @@
                         <th>name</th>
                         <th>email</th>
                         <th>status</th>
-                        <td>ban</td>
+                        <th>ban</th>
                     </thead>
                     <tbody>
             		    @foreach($users as $user)
