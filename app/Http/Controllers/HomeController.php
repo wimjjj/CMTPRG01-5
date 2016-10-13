@@ -36,4 +36,8 @@ class HomeController extends Controller
 
         return view('home', compact('ownedParties', 'attendedParties'));
     }
+
+    public function banned(){
+        return view('auth.banned');
+    }
 }

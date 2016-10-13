@@ -13,15 +13,16 @@
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth', 'banned']], function(){
 	Route::get('/password', 'PasswordController@index')->name('password');
 	Route::post('/password', 'PasswordController@update')->name('password');
 	Route::get('/profile', 'ProfileController@index')->name('profile.me');
 	Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit');
 	Route::post('/profile', 'ProfileController@update')->name('profile.me');
+	Route::get('/', 'HomeController@index')->name('home');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
+Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'party'], function(){
 	Route::get('/new', 'PartyController@create')->name('party.new');
 	Route::post('/', 'PartyController@store')->name('party');
 	Route::get('/{id}', 'PartyController@show')->name('party.show');
@@ -34,7 +35,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'party'], function(){
 	Route::get('/{id}/tasks', 'TaskController@index')->name('party.tasks');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
+Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'task'], function(){
 	Route::get('/{id}', 'TaskController@show')->name('task');
 	Route::get('/{id}/edit', 'TaskController@edit')->name('task.edit');
 	Route::post('/{id}', 'TaskController@update')->name('task.update');
@@ -42,11 +43,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'task'], function(){
 	Route::get('/{id}/delete', 'TaskController@delete')->name('task.delete');		//CHANCE TO POST
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'users'], function(){
+Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'users'], function(){
 	Route::get('/{id}', 'ProfileController@show')->name('profile');
 });
 
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(){
+Route::group(['middleware' => ['auth', 'admin', 'banned'], 'prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index')->name('admin');
 	Route::get('/users', 'AdminController@users')->name('admin.users');
 	Route::post('/users/ban', 'AdminController@ban')->name('admin.ban');
@@ -55,4 +56,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(
 });
 
 
-Route::get('/', 'HomeController@index')->name('home');
+
+
+Route::get('/banned', 'HomeController@banned')->name('banned');
