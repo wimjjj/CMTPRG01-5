@@ -6,6 +6,7 @@ use App\User;
 use App\Party;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function users(){
-    	$users = User::paginate(10);
+    	$users = User::where('id', '!=', Auth::id())->paginate(10);
 
     	return view('admin.users', compact('users'));
     }
