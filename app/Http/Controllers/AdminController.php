@@ -33,7 +33,7 @@ class AdminController extends Controller
     /**
      * ban an user
      * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return \Illuminate\Http\Response
      */
     public function ban(MailHandler $mailHandler, Request $request){
     	$user = User::findOrFail($request->input('user'));
@@ -43,7 +43,7 @@ class AdminController extends Controller
         else
             $user->grandAcces();
 
-        $mailHandler->sendBannedMail($user);
+        $mailHandler->sendBannedMail($user, Auth::user());
 
     	return back();
     }
@@ -85,7 +85,7 @@ class AdminController extends Controller
     	$party = Party::findOrFail($request->input('party'));
 
         $mailHandler->sendDeletedPartyMail($party);
-        
+
         $party->delete();
 
     	return back();

@@ -5,7 +5,9 @@ namespace App\Mail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvitedMail;
 use App\Mail\BannedMail;
-use App\DeletedPartyMail;
+use App\Mail\DeletedPartyMail;
+use App\User;
+use App\Party;
 
 /**
  * This class is injected in the controllers that need to send an email
@@ -24,11 +26,12 @@ class MailHandler {
 
 	/**
 	 * send a mail to an user to inform him about his ban
-	 * @param  User $user   	the just banned user
-	 * @return void  
+	 * @param  User $user    	the banned user
+	 * @param  User $admin   	the admin that banned the user
+	 * @return void
 	 */
-	public function sendBannedMail($user){
-		Mail::to($user)->send(new BannedMail($user));
+	public function sendBannedMail($user, $admin){
+		Mail::to($user)->send(new BannedMail($user, $admin));
 	}
 
 	/**
