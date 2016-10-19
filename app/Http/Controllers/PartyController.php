@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailHandler;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
@@ -105,7 +106,7 @@ class PartyController extends Controller
      * @param  int $userid          id of the user
      * @return \Illuminate\Http\Response
      */
-    public function invite($partyid, $userid){
+    public function invite(MailHandler $mailHandler, $partyid, $userid){
         $user = User::findOrFail($userid);
         $party = Party::findOrFail($partyid);
 
@@ -115,8 +116,11 @@ class PartyController extends Controller
         if($userid == Auth::id()) return back();
 
         //don't invite an user twice!
-        if(!$user->attendedParties->contains($party))
-            $user->attendedParties()->attach($party);
+        if($user->attendedParties->contains($party)) return back();
+
+        $user->attendedParties()->attach($party);
+
+        $mailHandler->sendInviteMail($party, $user);
 
         return redirect(Route('party.invite', ['id' => $party->id]));
     }

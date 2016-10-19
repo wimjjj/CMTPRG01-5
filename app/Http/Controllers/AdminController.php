@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\MailHandler;
 
 class AdminController extends Controller
 {
@@ -34,13 +35,15 @@ class AdminController extends Controller
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function ban(Request $request){
+    public function ban(MailHandler $mailHandler, Request $request){
     	$user = User::findOrFail($request->input('user'));
 
         if(!$user->isBanned())
             $user->ban();
         else
             $user->grandAcces();
+
+        $mailHandler->sendBannedMail($user);
 
     	return back();
     }
@@ -76,11 +79,13 @@ class AdminController extends Controller
     /**
      * deletes a party
      * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return \Illuminate\Http\Response
      */
-    public function deleteParty(Request $request){
+    public function deleteParty(MailHandler $mailHandler, Request $request){
     	$party = Party::findOrFail($request->input('party'));
 
+        $mailHandler->sendDeletedPartyMail($party);
+        
         $party->delete();
 
     	return back();
