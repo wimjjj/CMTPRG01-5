@@ -13,6 +13,7 @@
                         <th>email</th>
                         <th>status</th>
                         <th>ban</th>
+                        <th>reset password</th>
                     </thead>
                     <tbody>
             		    @foreach($users as $user)
@@ -31,6 +32,12 @@
                                             class="btn btn-danger">
                                     </form>
                                 </td>
+                                <td>
+                                    <form method="post" action="{{ Route('admin.resetpassword') }}">
+                                        <input type="hidden" name="userid" value="{{ $user->id }}">
+                                        {{ csrf_field() }}
+                                        <input type="submit" value="reset password" class="btn btn-danger">
+                                    </form>
                             </tr>
                         @endforeach
                     </tbody>

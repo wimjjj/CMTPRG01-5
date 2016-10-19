@@ -53,7 +53,8 @@ Route::group(['middleware' => ['auth', 'admin', 'banned'], 'prefix' => 'admin'],
 	Route::get('/users', 'AdminController@users')->name('admin.users');
 	Route::post('/users/ban', 'AdminController@ban')->name('admin.ban');
 	Route::get('/parties', 'AdminController@parties')->name('admin.parties');
-	ROute::post('/parties/delete', 'AdminController@deleteParty')->name('admin.parties.delete');
+	Route::post('/parties/delete', 'AdminController@deleteParty')->name('admin.parties.delete');
+	Route::post('resetpassword', 'AdminController@resetPassword')->name('admin.resetpassword');
 });
 
 
