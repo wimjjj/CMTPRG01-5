@@ -8,12 +8,12 @@
                 <div class="panel-heading">
                     Tasks for: {{{ $party->name }}}
                     <p class="pull-right">
-                        <a href="{{ url('/party/' . $party->id) }}">
+                        <a href="{{ Route('party.show', ['id' => $party->id]) }}">
                             party
                         </a>
                         @if($party->owner->id == Auth::id())
                              |
-                            <a href="{{ url('/party/' . $party->id . '/addtask') }}">
+                            <a href="{{ Route('party.tasks.new', ['id' => $party->id]) }}">
                                 add task
                             </a>
                         @endif
@@ -22,13 +22,13 @@
                 <div class="panel-body">
                     @foreach($tasks as $task)
                         <div>
-                            <a class="pull-right" href="{{ url('/task/' . $task->id) }}">details</a>
+                            <a class="pull-right" href="{{ Route('task.show', ['id' => $task->id]) }}">details</a>
                             <p> {{{ $task->description }}} </p>
                             taken by: 
                             @if($task->user)
                                 {{{ $task->user->name }}}
                             @else
-                                <a class="pull-right" href="{{ url('/task/' . $task->id. '/claim') }}">
+                                <a class="pull-right" href="{{ Route('task.claim', ['id' => $task->id])}}">
                                     claim
                                 </a>
                                 none one yet

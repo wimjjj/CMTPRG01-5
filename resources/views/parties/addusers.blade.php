@@ -8,12 +8,12 @@
                 <div class="panel-heading">
                 	Invite users to: {{{ $party->name }}}
 					
-					<a class="pull-right" href="{{ url('party/' . $party->id) }}">
+					<a class="pull-right" href="{{ Route('party.show', ['id' => $party->id]) }}">
 						party
 					</a>
                 </div>
 				<div class="panel-body">
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/party/' . $party->id . '/invite') }}">
+					<form class="form-horizontal" role="form" method="POST" action="{{ Route('party.invite' , ['id' => $party->id])}}">
 		                {{ csrf_field() }}
 						
 						<div class="form-group{{ $errors->has('keyword') ? ' has-error' : '' }}">

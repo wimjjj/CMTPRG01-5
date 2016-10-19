@@ -24,19 +24,20 @@ Route::group(['middleware' => ['auth', 'banned']], function(){
 
 Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'party'], function(){
 	Route::get('/new', 'PartyController@create')->name('party.new');
-	Route::post('/', 'PartyController@store')->name('party');
+	Route::post('/', 'PartyController@store')->name('party.store');
 	Route::get('/{id}', 'PartyController@show')->name('party.show');
 	Route::get('/{id}/dontattend', 'PartyController@dontAttend')->name('party.leave');
 	Route::get('/{id}/invite', 'PartyController@showInvite')->name('party.invite');
 	Route::post('/{id}/invite', 'PartyController@inviteUsers')->name('party.invite');
-	Route::get('/{partid}/invite/{userid}', 'PartyController@invite')->name('party.invite.send');
+	//CHANCE TO POST
+	Route::get('/{partyid}/invite/{userid}', 'PartyController@invite')->name('party.invite.send');	
 	Route::get('/{id}/addtask', 'TaskController@create')->name('party.tasks.new');
 	Route::post('/{id}/storetask', 'TaskController@store')->name('party.tasks.store');
 	Route::get('/{id}/tasks', 'TaskController@index')->name('party.tasks');
 });
 
 Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'task'], function(){
-	Route::get('/{id}', 'TaskController@show')->name('task');
+	Route::get('/{id}', 'TaskController@show')->name('task.show');
 	Route::get('/{id}/edit', 'TaskController@edit')->name('task.edit');
 	Route::post('/{id}', 'TaskController@update')->name('task.update');
 	Route::get('/{id}/claim', 'TaskController@claim')->name('task.claim');

@@ -77,7 +77,7 @@ class TaskController extends Controller
                           'party_id' => $party->id,
                           'user_id' => null]);
 
-    	return redirect('/task/' . $task->id);
+    	return redirect(Route('task.show', ['id' => $task->id]));
     }
 
     /**

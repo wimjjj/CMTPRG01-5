@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Add Task</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/party/' . $party->id . '/storetask') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ Route('party.tasks.store', ['id' => $party->id]) }}">
                         {{ csrf_field() }}
                         
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">

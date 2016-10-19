@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Add party</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/party') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ Route('party.store') }}">
                         {{ csrf_field() }}
                         
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">

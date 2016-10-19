@@ -8,7 +8,7 @@
                 <div class="panel-heading">Profile</div>
                 <div class="panel-body">
                 	@if($user->id == Auth::id())
-			        	<a href="{{ url('/profile/edit') }}" class="btn btn-default pull-right">
+			        	<a href="{{ Route('profile.edit') }}" class="btn btn-default pull-right">
 							edit
 						</a>
 					@endif

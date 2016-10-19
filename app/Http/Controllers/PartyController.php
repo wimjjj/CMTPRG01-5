@@ -32,7 +32,7 @@ class PartyController extends Controller
 
     	$party->save();
 
-    	return redirect('/party/' . $party->id);
+    	return redirect(Route('party.show', ['id' => $party->id]));
     }
 
     /**
@@ -118,6 +118,6 @@ class PartyController extends Controller
         if(!$user->attendedParties->contains($party))
             $user->attendedParties()->attach($party);
 
-        return redirect('/party/' . $party->id . '/invite');
+        return redirect(Route('party.invite', ['id' => $party->id]));
     }
 }   

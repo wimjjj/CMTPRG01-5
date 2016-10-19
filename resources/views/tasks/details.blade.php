@@ -9,7 +9,7 @@
                 	Task
                 	
                 	<p class="pull-right">
-                		<a href="{{ url('party/' . $task->party->id . '/tasks') }}">
+                		<a href="{{ Route('party.tasks', ['id' => $task->party->id]) }}">
 							tasks
 						</a>
 
@@ -18,11 +18,11 @@
 						@endif
 
 	                	@if($task->party->owner->id == Auth::id())
-							<a href="{{ url('/task/' . $task->id . '/edit') }}">
+							<a href="{{ Route('task.edit', ['id' => $task->id]) }}">
 								edit
 							</a>
 							 | 
-							<a href="{{ url('/task/' . $task->id . '/delete') }}">
+							<a href="{{ Route('task.delete', ['id' => $task->id]) }}">
 								delete
 							</a>
 						@endif
@@ -32,7 +32,7 @@
 						@endif
 
 						@if(!$task->user)
-							<a href="{{ url('task/' . $task->id . '/claim') }}">
+							<a href="{{ Route('task.claim', ['id' => $task->id]) }}">
 								claim
 							</a>
 						@endif
@@ -42,14 +42,14 @@
 					<p><b>description:</b> {{{ $task->description }}}</p>
 					<p><b>user:</b> 
 						@if($task->user)
-							<a href="{{ url('users/' . $task->user->id) }}">
+							<a href="{{ Route('profile', ['id' => $task->user->id]) }}">
 								{{{ $task->user->name }}}
 							</a>
 						@else
 							no one yet 
 						@endif
 					</p>
-					<p><b>party:</b> <a href="{{ url('party/' . $task->party->id) }}">
+					<p><b>party:</b> <a href="{{ Route('party.show', ['id' => $task->party->id]) }}">
 									{{{ $task->party->name }}}
 								</a>
 					</p>

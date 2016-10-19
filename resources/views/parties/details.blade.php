@@ -9,22 +9,22 @@
                 	{{{ $party->name }}}
 
 	                <p class="pull-right">
-	                	<a href="{{ url('party/' . $party->id . '/tasks') }}">
+	                	<a href="{{ Route('party.tasks', ['id' => $party->id]) }}">
 	                			tasks
 	                	</a>
                 		@if($party->owner->id == Auth::id())
                 			 | 
-	                		<a href="{{{ url('party/' . $party->id . '/invite') }}}">
+	                		<a href="{{ Route('party.invite', ['id' => $party->id]) }}">
 	                			invite users
 	                		</a>
 	                		 |
-	                		<a href="{{ url('party/' . $party->id . '/addtask') }}">
+	                		<a href="{{ Route('party.tasks.new', ['id' => $party->id]) }}">
 	                			add tasks
 	                		</a>
 	                	@endif
 	                	@if($party->attendees->contains(Auth::id()))
 	                		 | 
-	                		<a href="{{ url('party/' . $party->id . '/dontattend') }}">
+	                		<a href="{{ Route('party.leave', ['id' => $party->id]) }}">
 	                			leave
 	                		</a>
 	                	@endif
@@ -36,7 +36,7 @@
 				<h4>attendees</h4>
 				<ul>
 					@foreach($party->attendees as $user)
-						<a href="{{ url('users/' . $user->id) }}">
+						<a href="{{ Route('profile', ['id' => $user->id]) }}">
 							<li>
 								{{{ $user->name }}}
 							</li>
@@ -44,7 +44,7 @@
 					@endforeach
 				</ul>
 				<p><a href="#">all attendees</a></p>
-                <em>organised by <a href="{{ url('users/' . $party->owner->id) }}">
+                <em>organised by <a href="{{ Route('profile', ['id' => $party->owner->id]) }}">
            	     	{{{ $party->owner->name }}} </a></em>
            	</div>
         </div>

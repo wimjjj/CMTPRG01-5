@@ -10,7 +10,7 @@
                     Organised by me
 
                     <p class="pull-right">
-                        <a href="{{ url('/party/new') }}" >new</a>
+                        <a href="{{ Route('party.new') }}" >new</a>
                          |
                         <a href="#">all</a>
                     </p>
@@ -18,7 +18,7 @@
                 <div class="panel-body">
                     @foreach($ownedParties as $party)
                         <div>
-                            <a href="{{ url('/party/' . $party->id) }}">
+                            <a href="{{ Route('party.show', ['id' => $party->id]) }}">
                                 <h3>{{{ $party->name }}}</h3>
                             </a>
                             <p>{{{ $party->description}}}</p>
@@ -42,7 +42,7 @@
                 <div class="panel-body">
                     @foreach($attendedParties as $party)
                         <div>
-                            <a href="{{ url('/party/' . $party->id) }}">
+                            <a href="{{ Route('party.show', ['id' => $party->id]) }}">
                                 <h3>{{{ $party->name }}}</h3>
                             </a>
                             <p>{{{ $party->description}}}</p>
