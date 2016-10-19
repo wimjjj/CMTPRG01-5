@@ -34,7 +34,7 @@ class TaskPolicy
     /**
      * checks if an user is authorized to view a given tasks 
      * @param  User   $user     the current user
-     * @param  Task   $task     the give tasks
+     * @param  Task   $task     the given tasks
      * @return boolean
      */
     public function show(User $user, Task $task){
@@ -45,6 +45,12 @@ class TaskPolicy
         return false;
     }
 
+    /**
+     * checks if an user is authorized to delete a given task
+     * @param  User   $user     the current user
+     * @param  Task   $task     the given task
+     * @return boolean
+     */
     public function delete(User $user, Task $task){
         return $task->party->owner->id == $user->id;
     }

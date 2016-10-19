@@ -33,7 +33,7 @@ class PartyPolicy
     /**
      * checks if an user is authorized to view a party and the data that belongs to it
      * @param  User   $user     the current user
-     * @param  Party  $party    the party
+     * @param  Party  $party    the given party
      * @return bool
      */
     public function view(User $user, Party $party){
@@ -46,9 +46,9 @@ class PartyPolicy
 
     /**
      * checks if an user is authorized to make chances to a party
-     * @param  User    $user  [description]
-     * @param  Party   $party [description]
-     * @return boolean        [description]
+     * @param  User    $user    the current user
+     * @param  Party   $party   the given party
+     * @return boolean 
      */
     public function isOwner(User $user, Party $party){  
         return $party->owner->id == $user->id;
