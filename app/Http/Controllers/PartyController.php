@@ -12,8 +12,29 @@ use App\User;
 class PartyController extends Controller
 {
     /**
+     * shows a list with all the parties you organised
+     * @return \Illuminate\Http\Response
+     */
+    public function owned(){
+        $parties = Auth::user()
+                        ->ownParties()
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+
+        return view('parties.owned', compact('parties'));
+    }
+
+    public function attended(){
+        $parties = Auth::user()
+                        ->attendedParties()
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+
+        return view('parties.attended', compact('parties'));
+    }
+    /**
      * shows the form for creating a new party
-     * @return [type] [description]
+     * @return \Illuminate\Http\Response
      */
     public function create(){
         return view('parties.new');
