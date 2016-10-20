@@ -12,7 +12,7 @@
                     <p class="pull-right">
                         <a href="{{ Route('party.new') }}" >new</a>
                          |
-                        <a href="#">all</a>
+                        <a href="{{ ROute('party.owned') }}">all</a>
                     </p>
                 </div>
                 <div class="panel-body">
@@ -37,7 +37,7 @@
                 <div class="panel-heading">
                     Attended by me
 
-                    <a href="#" class="pull-right">all</a>
+                    <a href="{{ Route('party.attended') }}" class="pull-right">all</a>
                 </div>
                 <div class="panel-body">
                     @foreach($attendedParties as $party)
