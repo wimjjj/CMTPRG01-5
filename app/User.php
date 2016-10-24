@@ -45,6 +45,11 @@ class User extends Authenticatable
         return $this->access == 1;
     }
 
+    public function makeAdmin(){
+        $this->access = 1;
+        $this->save();
+    }
+
     public function ownParties(){
         return $this->hasMany('App\Party', 'user_id');
     }

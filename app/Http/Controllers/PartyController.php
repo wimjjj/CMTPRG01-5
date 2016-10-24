@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Auth;
 use App\Party;
 use App\User;
+use Validator;
 
 class PartyController extends Controller
 {
@@ -92,7 +93,7 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function inviteUsers(Request $request, $id){
-        $party = Party::findOrFail($id);
+        $party = Party::with('attendees', 'owner')->findOrFail($id);
 
         $this->authorize('isOwner', $party);
 
@@ -100,8 +101,20 @@ class PartyController extends Controller
 
         $keyword = $request->input('keyword');
 
-        $users = User::where('name', 'LIKE', "%$keyword%")
-            ->orWhere('email', 'LIKE', "%$keyword%")
+        $ofset = 0;
+
+        $attendeedIds = [];
+
+        foreach($party->attendees as $user){
+            $attendeedIds[] = $user->id;
+        }
+
+        $users = User::whereNotIn('id', $attendeedIds)
+            ->where('id', '!=', $party->owner->id)
+            ->where(function($query) use ($keyword) {
+                $query->orWhere('name', 'LIKE', "%$keyword%")
+                      ->orWhere('email', 'LIKE', "%$keyword%");
+            })
             ->take(10)
             ->get();
         

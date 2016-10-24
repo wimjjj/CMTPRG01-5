@@ -50,7 +50,7 @@
 				          		<b>email:</b> {{{ $user->email }}}</p>
 				          	</a>
 			          	@endforeach
-					</div>
+			        </div>
 			    </div>
 		    @endif
 		</div>

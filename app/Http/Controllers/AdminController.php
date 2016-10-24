@@ -31,8 +31,35 @@ class AdminController extends Controller
     }
 
     /**
-     * ban an user
+     * lets the admin search for users
      * @param  Request $request [description]
+     * @return \Illuminate\Http\Response
+     */
+    public function searchUsers(Request $request){
+        $keyword = $request->get('keyword');
+        $status = $request->get('status');
+
+        $users = User::where('id', '!=', Auth::id())
+            ->where(function($query) use ($status){
+                if($status == 'banned') $query->where('access', -1);
+
+                if($status == 'access') $query->where('access', '>=', 0);
+
+                if($status == 'admin') $query->where('access', 1);
+            })
+            ->where(function($query) use ($keyword) {
+                $query->orWhere('name', 'LIKE', "%$keyword%")
+                      ->orWhere('email', 'LIKE', "%$keyword%");
+            })
+            ->paginate(10);
+
+        return view('admin.users', compact('users'));
+    }
+
+    /**
+     * ban an user
+     * @param  MailHandler $mailHandler [description]
+     * @param  Request     $request     [description]
      * @return \Illuminate\Http\Response
      */
     public function ban(MailHandler $mailHandler, Request $request){
@@ -46,6 +73,22 @@ class AdminController extends Controller
         $mailHandler->sendBannedMail($user, Auth::user());
 
     	return back();
+    }
+
+    /**
+     * make an user admin
+     * @param  Request $request [description]
+     * @return \Illuminate\Http\Response
+     */
+    public function admin(Request $request){
+        $user = User::findOrFail($request->input('user'));
+
+        if($user->isAdmin())
+            $user->grandAcces();
+        else
+            $user->makeAdmin();
+
+        return back();
     }
 
     /**
