@@ -25,7 +25,9 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function users(){
-    	$users = User::where('id', '!=', Auth::id())->paginate(10);
+    	$users = User::where('id', '!=', Auth::id())
+            ->withCount('ownParties', 'attendedParties')
+            ->paginate(10);
 
     	return view('admin.users', compact('users'));
     }
@@ -47,13 +49,14 @@ class AdminController extends Controller
 
                 if($status == 'admin') $query->where('access', 1);
             })
-            ->where(function($query) use ($keyword) {
+            ->where(function($query) use ($keyword) {                       
                 $query->orWhere('name', 'LIKE', "%$keyword%")
                       ->orWhere('email', 'LIKE', "%$keyword%");
             })
+            ->withCount('ownParties', 'attendedParties')
             ->paginate(10);
 
-        return view('admin.users', compact('users'));
+        return view('admin.users', compact('users', 'keyword', 'status'));
     }
 
     /**
@@ -114,7 +117,9 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function parties(){
-    	$parties = Party::paginate(10);
+    	$parties = Party::orderBy('created_at', 'desc')
+            ->with('owner')
+            ->paginate(10);
 
     	return view('admin.parties', compact('parties'));
     }
