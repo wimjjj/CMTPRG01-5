@@ -33,7 +33,7 @@
                 <div class="panel-body">
                 <p>{{{ $party->description }}}</p>
 				<hr>
-				<p><a href="#">attendees</a></p>
+				<p><a href="{{ Route('party.attendees', ['id' => $party->id]) }}">attendees</a></p>
                 <em>organised by <a href="{{ Route('profile', ['id' => $party->owner->id]) }}">
            	     	{{{ $party->owner->name }}} </a></em>
            	</div>

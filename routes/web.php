@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'party'], function
 	Route::get('/new', 'PartyController@create')->name('party.new');
 	Route::post('/', 'PartyController@store')->name('party.store');
 	Route::get('/{id}', 'PartyController@show')->name('party.show');
+	Route::get('/{id}/attendees', 'PartyController@attendees')->name('party.attendees');
 	Route::get('/{id}/dontattend', 'PartyController@dontAttend')->name('party.leave');
 	Route::get('/{id}/invite', 'PartyController@showInvite')->name('party.invite');
 	Route::post('/{id}/invite', 'PartyController@inviteUsers')->name('party.invite');

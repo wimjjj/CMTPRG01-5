@@ -9,6 +9,7 @@ use Auth;
 use App\Party;
 use App\User;
 use Validator;
+use Illuminate\Pagination\Paginator;
 
 class PartyController extends Controller
 {
@@ -33,6 +34,7 @@ class PartyController extends Controller
 
         return view('parties.attended', compact('parties'));
     }
+
     /**
      * shows the form for creating a new party
      * @return \Illuminate\Http\Response
@@ -69,6 +71,28 @@ class PartyController extends Controller
         $this->authorize('view', $party);
 
     	return view('parties.details', compact('party'));
+    }
+
+    public function attendees(Request $request, $id){
+        $party = Party::with([
+            'owner' => function($query) use ($id) {
+                $query->withCount(['tasks' => function ($query) use ($id){
+                            $query->where('party_id', $id);        
+                        }
+                    ]);
+                }, 
+            'attendees' => function($query) use ($id) {
+                $query->withCount(['tasks' => function ($query) use ($id){
+                            $query->where('party_id', $id);        
+                        }
+                    ]);
+                }
+            ])
+        ->findOrFail($id);
+
+        $users = $party->attendees->push($party->owner);
+
+        return view('parties.attendees', compact('party', 'users'));
     }
 
     /**
