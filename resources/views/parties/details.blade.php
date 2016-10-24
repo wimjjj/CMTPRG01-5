@@ -33,17 +33,7 @@
                 <div class="panel-body">
                 <p>{{{ $party->description }}}</p>
 				<hr>
-				<h4>attendees</h4>
-				<ul>
-					@foreach($party->attendees as $user)
-						<a href="{{ Route('profile', ['id' => $user->id]) }}">
-							<li>
-								{{{ $user->name }}}
-							</li>
-						</a>
-					@endforeach
-				</ul>
-				<p><a href="#">all attendees</a></p>
+				<p><a href="#">attendees</a></p>
                 <em>organised by <a href="{{ Route('profile', ['id' => $party->owner->id]) }}">
            	     	{{{ $party->owner->name }}} </a></em>
            	</div>

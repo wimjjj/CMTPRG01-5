@@ -17,7 +17,8 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($id){
-        $tasks = Task::where('party_id', $id)
+        $tasks = Task::with('party.attendees', 'party.owner')
+            ->where('party_id', $id)
             ->orderBy('user_id', 'asc')
             ->with('user', 'party')
             ->paginate(10);
@@ -40,7 +41,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        $task = Task::findOrFail($id);
+        $task = Task::with('party.attendees', 'party.owner')->findOrFail($id);
 
         $this->authorize('show', $task);
 
@@ -53,7 +54,7 @@ class TaskController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
     public function create($id){
-    	$party = Party::findOrFail($id);
+    	$party = Party::with('owner')->findOrFail($id);
 
         $this->authorize('createTasks', $party);
 
@@ -67,7 +68,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id){
-    	$party = Party::findOrFail($id);
+    	$party = Party::with('owner')->findOrFail($id);
 
     	$this->authorize('createTasks', $party);
 
@@ -86,7 +87,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-    	$task = Task::findOrFail($id);
+    	$task = Task::with('party.owner')->findOrFail($id);
 
         $this->authorize('edit', $task);
 
@@ -100,7 +101,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-    	$task = Task::findOrFail($id);
+    	$task = Task::with('party.owner')->findOrFail($id);
 
     	$this->authorize('edit', $task);
 
@@ -117,7 +118,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */	
     public function claim($id){
-    	$task = Task::findOrFail($id);
+    	$task = Task::with('party.owner', 'party.attendees')->findOrFail($id);
 
     	$this->authorize('show', $task);
 
@@ -136,12 +137,12 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function delete($id){
-        $task = Task::findOrFail($id);
+        $task = Task::with('party.owner')->findOrFail($id);
 
         $this->authorize('delete', $task);
         
         $task->delete();
 
-        return redirect('/party/' . $task->party->id . '/tasks');
+        return redirect(Route('party.tasks', ['id' => $task->party->id]));
     }
 }

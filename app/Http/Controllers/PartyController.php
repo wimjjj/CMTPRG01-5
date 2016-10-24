@@ -64,11 +64,7 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-    	$party = Party::findOrFail($id);
-
-    	$party->load(['owner', 'attendees' => function($query){
-            $query->orderBy('attendees.created_at', 'desc')->take(3);
-        }])->get();
+    	$party = Party::with('owner')->findOrFail($id);
 
         $this->authorize('view', $party);
 
@@ -127,7 +123,7 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showInvite($id){
-        $party = Party::findOrFail($id);
+        $party = Party::with('owner')->findOrFail($id);
 
         $this->authorize('isOwner', $party);
 
@@ -142,7 +138,7 @@ class PartyController extends Controller
      */
     public function invite(MailHandler $mailHandler, $partyid, $userid){
         $user = User::findOrFail($userid);
-        $party = Party::findOrFail($partyid);
+        $party = Party::with('owner')->findOrFail($partyid);
 
         $this->authorize('isOwner', $party);
 
