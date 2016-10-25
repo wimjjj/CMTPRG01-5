@@ -17,7 +17,11 @@
                 		</thead>
 						<tbody>
 							@foreach($users as $user)
-								<tr>
+								<tr 
+									@if($user->id == Auth::id())
+										class="info"
+									@endif
+								>
 									<td>{{{ $user->name }}}</td>
 									<td>{{{ $user->email }}}</td>
 									<td>{{ $user->tasks_count }}</td>
@@ -25,6 +29,14 @@
 							@endforeach
 						</tbody>
                 	</table>
+					
+					@if(isset($page) && $page > 0)
+                		<a href="{{ Route('party.attendees', ['id' => $party->id, 'page' => $page - 1]) }}">prevv</a>
+                	@endif
+
+                	@if(isset($page) && sizeof($users) > 1)
+                		<a class="pull-right" href="{{ Route('party.attendees', ['id' => $party->id, 'page' => $page + 1]) }}">next</a>
+                	@endif
 				</div>
 			</div>
 		</div>

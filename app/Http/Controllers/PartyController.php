@@ -73,7 +73,9 @@ class PartyController extends Controller
     	return view('parties.details', compact('party'));
     }
 
-    public function attendees(Request $request, $id){
+    public function attendees(Request $request, $id, $page = 0){
+        $perPage = 10;
+
         $party = Party::with([
             'owner' => function($query) use ($id) {
                 $query->withCount(['tasks' => function ($query) use ($id){
@@ -81,18 +83,21 @@ class PartyController extends Controller
                         }
                     ]);
                 }, 
-            'attendees' => function($query) use ($id) {
+            'attendees' => function($query) use ($id, $perPage, $page) {
                 $query->withCount(['tasks' => function ($query) use ($id){
-                            $query->where('party_id', $id);        
+                            $query->where('party_id', $id);       
                         }
-                    ]);
+                    ])
+                    ->skip($perPage * $page) 
+                    ->take($perPage);
                 }
             ])
-        ->findOrFail($id);
+            ->withCount('attendees')
+            ->findOrFail($id);
 
-        $users = $party->attendees->push($party->owner);
+        $users = $party->attendees->prepend($party->owner);
 
-        return view('parties.attendees', compact('party', 'users'));
+        return view('parties.attendees', compact('party', 'users', 'page'));
     }
 
     /**
