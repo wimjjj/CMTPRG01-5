@@ -23,16 +23,21 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $ownedParties = Auth::user()->ownParties()
-            ->orderBy('created_at', 'desc')
-            ->take(3)
-            ->get();
+    {   
+        $user = Auth::user()->load([
+                'attendedParties' => function($query){
+                    $query->orderBy('created_at', 'desc')
+                          ->take(3);
+                },
+                'ownParties' => function($query){
+                    $query->orderBy('created_at', 'desc')
+                          ->take(3);
+                }
+            ]);
 
-        $attendedParties = Auth::user()->attendedParties()
-            ->orderBy('attendees.created_at', 'desc')
-            ->take(3)
-            ->get();
+        $ownedParties = $user->ownParties;
+
+        $attendedParties = $user->attendedParties;
 
         return view('home', compact('ownedParties', 'attendedParties'));
     }

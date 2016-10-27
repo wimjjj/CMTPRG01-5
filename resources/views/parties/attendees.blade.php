@@ -18,7 +18,7 @@
 						<tbody>
 							@foreach($users as $user)
 								<tr 
-									@if($user->id == Auth::id())
+									@if($user->id == $party->owner->id)
 										class="info"
 									@endif
 								>
