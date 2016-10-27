@@ -34,7 +34,7 @@
                 		<a href="{{ Route('party.attendees', ['id' => $party->id, 'page' => $page - 1]) }}">prevv</a>
                 	@endif
 
-                	@if(isset($page) && sizeof($users) > 1)
+                	@if($hasNextPage)
                 		<a class="pull-right" href="{{ Route('party.attendees', ['id' => $party->id, 'page' => $page + 1]) }}">next</a>
                 	@endif
 				</div>

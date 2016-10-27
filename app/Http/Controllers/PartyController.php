@@ -9,7 +9,6 @@ use Auth;
 use App\Party;
 use App\User;
 use Validator;
-use Illuminate\Pagination\Paginator;
 
 class PartyController extends Controller
 {
@@ -97,7 +96,10 @@ class PartyController extends Controller
 
         $users = $party->attendees->prepend($party->owner);
 
-        return view('parties.attendees', compact('party', 'users', 'page'));
+        $tmpPage = $page + 1;
+        $hasNextPage = $party->attendees_count > ($perPage * $tmpPage);
+
+        return view('parties.attendees', compact('party', 'users', 'page', 'hasNextPage'));
     }
 
     /**
@@ -125,8 +127,6 @@ class PartyController extends Controller
         $this->validate($request, ['keyword' => 'required|max:255']);
 
         $keyword = $request->input('keyword');
-
-        $ofset = 0;
 
         $attendeedIds = [];
 
