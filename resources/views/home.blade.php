@@ -8,7 +8,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Organised by me
-
+    
                     <p class="pull-right">
                         <a href="{{ Route('party.new') }}" >new</a>
                          |
@@ -60,12 +60,15 @@
                 <div class="panel-heading">Invitations</div>
                 <div class="panel-body">
                     @foreach($invitedParties as $party)
-                        <div>
-                            <form class="pull-right" method="post" action="{{ Route('party.accept') }}">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="partyid" value="{{ $party->id }}">
-                                <input type="submit" value="accept" class="btn btn-default">
-                            </form>
+                        <div>   
+                            <div class="pull-right">
+                                <form method="post" class="pull-right" action="{{ Route('party.accept') }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="partyid" value="{{ $party->id }}">
+                                    <input type="submit" value="accept" class="btn btn-default">
+                                </form>
+                                <a href="{{ Route('party.leave', ['id' => $party->id]) }}" class="btn btn-danger pull-right">delete</a>
+                            </div>
                             <h3>{{{ $party->name }}}</h3>
                             <p>{{{ $party->description}}}</p>
                         </div>

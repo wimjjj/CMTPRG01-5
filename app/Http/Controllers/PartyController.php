@@ -109,6 +109,8 @@ class PartyController extends Controller
      */
     public function dontAttend($id){
     	Auth::user()->attendedParties()->detach($id);
+        
+        Auth::user()->invitedParties()->detach($id);
 
     	return redirect(Route('home'));
     }
