@@ -67,7 +67,10 @@
                                     <input type="hidden" name="partyid" value="{{ $party->id }}">
                                     <input type="submit" value="accept" class="btn btn-default">
                                 </form>
-                                <a href="{{ Route('party.leave', ['id' => $party->id]) }}" class="btn btn-danger pull-right">delete</a>
+                                <a href="{{ Route('party.leave', ['id' => $party->id]) }}" class="btn btn-danger pull-right">delete</a> 
+                                <a href="{{ route('report.new', ['partyid' => $party->id]) }}" class="btn btn-danger">
+                                    report
+                                </a>
                             </div>
                             <h3>{{{ $party->name }}}</h3>
                             <p>{{{ $party->description}}}</p>

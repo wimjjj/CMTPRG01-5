@@ -53,4 +53,14 @@ class PartyPolicy
     public function isOwner(User $user, Party $party){  
         return $party->owner->id == $user->id;
     }
+
+    /**
+     * checks if an user is authorized to report a party
+     * @param  User    $user    the current user
+     * @param  Party   $party   the given party
+     * @return boolean
+     */
+    public function report(User $user, Party $party){
+        return $party->invited->contains($user);
+    }
 }

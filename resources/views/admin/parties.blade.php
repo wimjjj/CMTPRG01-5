@@ -11,6 +11,7 @@
                     <thead>
                         <th>name</th>
                         <th>owner</th>
+                        <th>reports</th>
                         <th>delete</th>
                     </thead>
                     <tbody>
@@ -22,6 +23,11 @@
                                 <td>
                                     <a href="{{ route('profile', ['id' => $party->owner->id]) }}"> 
                                         {{{ $party->owner->name }}}
+                                    </a>
+                                </td>
+                                <td>    
+                                    <a href="{{ route('admin.parties.reports', ['partyid' => $party->id]) }}"> 
+                                        {{ $party->reports_count }}
                                     </a>
                                 </td>
                                 <td>

@@ -52,6 +52,10 @@ Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'users'], function
 	Route::get('/{id}', 'ProfileController@show')->name('profile');
 });
 
+Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'report'], function(){
+	Route::get('/new/{partyid}', 'ReportController@create')->name('report.new');
+});
+
 Route::group(['middleware' => ['auth', 'admin', 'banned'], 'prefix' => 'admin'], function(){
 	Route::get('/', 'AdminController@index')->name('admin');
 	Route::get('/users', 'AdminController@users')->name('admin.users');
@@ -61,6 +65,8 @@ Route::group(['middleware' => ['auth', 'admin', 'banned'], 'prefix' => 'admin'],
 	Route::get('/parties', 'AdminController@parties')->name('admin.parties');
 	Route::post('/parties/delete', 'AdminController@deleteParty')->name('admin.parties.delete');
 	Route::post('resetpassword', 'AdminController@resetPassword')->name('admin.resetpassword');
+	Route::get('/{partyid}/reports', 'AdminController@reports')->name('admin.parties.reports');
+	Route::post('/reports/delete', 'ReportController@delete')->name('admin.report.delete');
 });
 
 

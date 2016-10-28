@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Report;
 use App\Http\Requests;
+use App\Party;
 
 class ReportController extends Controller
 {	
@@ -14,7 +15,11 @@ class ReportController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
     public function create($partyid){
-    	return view('report.new');
+        $party = Party::with('invited')->findOrFail($partyid);
+
+        $this->authorize('report', $party);
+
+    	return view('reports.new', compact('party'));
     }
 
     /**
@@ -24,8 +29,12 @@ class ReportController extends Controller
      */
     public function store(Request $request){
     	$this->validate($request, [
-    		'partyid' => 'required|integer'
+    		'partyid' => 'required|integer',
     		'message' => 'required']);
+
+        $party = Party::with('invited')->findOrFail($partyid);
+
+        $this->authorize('report', $party);
 
     	$report = new Report($request->all());
     	$report->user_id = Auth::id();
@@ -44,6 +53,8 @@ class ReportController extends Controller
 
     	$report = Report::findOrFail($request->input('reportid'));
 
+    	$report->delete();
+    	
     	return back();
     }
 }

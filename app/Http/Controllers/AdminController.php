@@ -119,6 +119,7 @@ class AdminController extends Controller
     public function parties(){
     	$parties = Party::orderBy('created_at', 'desc')
             ->with('owner')
+            ->withCount('reports')
             ->paginate(10);
 
     	return view('admin.parties', compact('parties'));
@@ -137,5 +138,18 @@ class AdminController extends Controller
         $party->delete();
 
     	return back();
+    }
+
+    /**
+     * shows the reports for a party
+     * @param  int $partid      id of the party
+     * @return \Illuminate\Http\Response
+     */
+    public function reports($partyid){
+        $party = Party::with('reports.user')->findOrFail($partyid);
+
+        $reports = $party->reports;
+
+        return view('admin.reports', compact('party', 'reports'));
     }
 }
