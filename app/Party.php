@@ -29,4 +29,8 @@ class Party extends Model
     public function tasks(){
     	return $this->hasMany('App\Task');
     }
+
+    public function reports(){
+        return $this->hasMany('App\Report');
+    }
 }

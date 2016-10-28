@@ -70,4 +70,8 @@ class User extends Authenticatable
     public function tasks(){
         return $this->hasMany('App\Task');
     }
+
+    public function reports(){
+        return $this->hasMany('App\Report');
+    }
 }
