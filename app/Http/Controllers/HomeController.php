@@ -32,14 +32,20 @@ class HomeController extends Controller
                 'ownParties' => function($query){
                     $query->orderBy('created_at', 'desc')
                           ->take(3);
-                }
+                },
+                'invitedParties' => function($query){
+                    $query->orderBy('created_at', 'desc')
+                          ->take(3);
+                },
             ]);
 
         $ownedParties = $user->ownParties;
 
         $attendedParties = $user->attendedParties;
 
-        return view('home', compact('ownedParties', 'attendedParties'));
+        $invitedParties = $user->invitedParties;
+
+        return view('home', compact('ownedParties', 'attendedParties', 'invitedParties'));
     }
 
     public function banned(){

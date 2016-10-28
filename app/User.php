@@ -55,8 +55,17 @@ class User extends Authenticatable
     }
 
     public function attendedParties(){
-        return $this->belongsToMany('App\Party', 'attendees');
+        return $this->belongsToMany('App\Party', 'attendees')
+                    ->withPivot('accepted')
+                    ->wherePivot('accepted', 1);
     }
+
+    public function invitedParties(){
+        return $this->belongsToMany('App\Party', 'attendees')
+                    ->withPivot('accepted')
+                    ->wherePivot('accepted', 0);
+    }
+
 
     public function tasks(){
         return $this->hasMany('App\Task');

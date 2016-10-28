@@ -110,7 +110,7 @@ class PartyController extends Controller
     public function dontAttend($id){
     	Auth::user()->attendedParties()->detach($id);
 
-    	return back();
+    	return redirect(Route('home'));
     }
 
     /**
@@ -120,7 +120,7 @@ class PartyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function inviteUsers(Request $request, $id){
-        $party = Party::with('attendees', 'owner')->findOrFail($id);
+        $party = Party::with('attendees', 'owner', 'invited')->findOrFail($id);
 
         $this->authorize('isOwner', $party);
 
@@ -134,7 +134,14 @@ class PartyController extends Controller
             $attendeedIds[] = $user->id;
         }
 
+        $invitedIds = [];
+
+        foreach($party->invited as $user){
+            $invitedIds[] = $user->id;
+        }
+
         $users = User::whereNotIn('id', $attendeedIds)
+            ->whereNotIn('id', $invitedIds)
             ->where('id', '!=', $party->owner->id)
             ->where(function($query) use ($keyword) {
                 $query->orWhere('name', 'LIKE', "%$keyword%")
@@ -182,5 +189,14 @@ class PartyController extends Controller
         $mailHandler->sendInviteMail($party, $user);
 
         return redirect(Route('party.invite', ['id' => $party->id]));
+    }
+
+    public function acceptInvitation(Request $request){
+        $this->validate($request, ['partyid' => 'required|integer']);
+
+        Auth::user()->invitedParties()
+                    ->updateExistingPivot($request->input('partyid'), ['accepted' => 1]);
+
+        return redirect(Route('party.show', ['id' => $request->input('partyid')]));
     }
 }   

@@ -16,6 +16,7 @@ class CreateAttendeesTable extends Migration
      Schema::create('attendees', function (Blueprint $table) {
             $table->integer('user_id')->unsigned()->index();
             $table->integer('party_id')->unsigned()->index();
+            $table->integer('accepted')->unsigned()->default(0);
             $table->timestamps();
         });
     }

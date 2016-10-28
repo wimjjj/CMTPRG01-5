@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth', 'banned']], function(){
 });
 
 Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'party'], function(){
+	Route::post('/accept', 'PartyController@acceptInvitation')->name('party.accept');
 	Route::get('/owned', 'PartyController@owned')->name('party.owned');
 	ROute::get('/attended', 'PartyController@attended')->name('party.attended');
 	Route::get('/new', 'PartyController@create')->name('party.new');

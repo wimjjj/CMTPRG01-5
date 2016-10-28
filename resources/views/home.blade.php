@@ -53,5 +53,27 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Invitations</div>
+                <div class="panel-body">
+                    @foreach($invitedParties as $party)
+                        <div>
+                            <form class="pull-right" method="post" action="{{ Route('party.accept') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="partyid" value="{{ $party->id }}">
+                                <input type="submit" value="accept" class="btn btn-default">
+                            </form>
+                            <h3>{{{ $party->name }}}</h3>
+                            <p>{{{ $party->description}}}</p>
+                        </div>
+                        <hr>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

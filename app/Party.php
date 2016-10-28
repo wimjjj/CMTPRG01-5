@@ -15,7 +15,15 @@ class Party extends Model
     }
 
     public function attendees(){
-    	return $this->belongsToMany('App\User', 'attendees');
+    	return $this->belongsToMany('App\User', 'attendees')
+                    ->withPivot('accepted')
+                    ->wherePivot('accepted', 1);
+    }
+
+    public function invited(){
+        return $this->belongsToMany('App\User', 'attendees')
+                    ->withPivot('accepted')
+                    ->wherePivot('accepted', 0);
     }
 
     public function tasks(){
