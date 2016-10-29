@@ -74,7 +74,11 @@
                                         {{ csrf_field() }}
                                         <input type="submit" 
                                             value="{{ $user->isBanned() ? 'banned' : 'ban' }}"
-                                            class="btn {{ $user->isBanned() ? 'btn-danger' : 'btn-default' }}">
+                                            class="btn {{ $user->isBanned() ? 'btn-danger' : 'btn-default' }}"
+                                            @if($user->id == Auth::id())
+                                                disabled
+                                            @endif
+                                            >
                                     </form>
                                 </td>
                                 <td>
@@ -83,7 +87,11 @@
                                         {{ csrf_field() }}
                                         <input type="submit" 
                                             value="{{ $user->isAdmin() ? 'admin' : 'user' }}"
-                                            class="btn {{ $user->isAdmin() ? 'btn-primary' : 'btn-default' }}">
+                                            class="btn {{ $user->isAdmin() ? 'btn-primary' : 'btn-default' }}"
+                                            @if($user->id == Auth::id())
+                                                disabled
+                                            @endif
+                                            >
                                     </form>
                                 </td>
                                 <td>

@@ -25,8 +25,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function users(){
-    	$users = User::where('id', '!=', Auth::id())
-            ->withCount('ownParties', 'attendedParties')
+    	$users = User::withCount('ownParties', 'attendedParties')
             ->paginate(10);
 
     	return view('admin.users', compact('users'));
@@ -41,8 +40,7 @@ class AdminController extends Controller
         $keyword = $request->get('keyword');
         $status = $request->get('status');
 
-        $users = User::where('id', '!=', Auth::id())
-            ->where(function($query) use ($status){
+        $users = User::where(function($query) use ($status){
                 if($status == 'banned') $query->where('access', -1);
 
                 if($status == 'access') $query->where('access', '>=', 0);
@@ -68,6 +66,9 @@ class AdminController extends Controller
     public function ban(MailHandler $mailHandler, Request $request){
     	$user = User::findOrFail($request->input('user'));
 
+        //you can't ban yourself
+        if($user->id == Auth::id()) return back();
+
         if(!$user->isBanned())
             $user->ban();
         else
@@ -85,6 +86,9 @@ class AdminController extends Controller
      */
     public function admin(Request $request){
         $user = User::findOrFail($request->input('user'));
+
+        //you can't chance your own acceslevel
+        if($user->id == Auth::id()) return back();
 
         if($user->isAdmin())
             $user->grandAcces();
