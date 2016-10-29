@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Report;
 use App\Http\Requests;
 use App\Party;
-
+use Auth;
 class ReportController extends Controller
 {	
 	/**
@@ -29,10 +29,10 @@ class ReportController extends Controller
      */
     public function store(Request $request){
     	$this->validate($request, [
-    		'partyid' => 'required|integer',
+    		'party_id' => 'required|integer',
     		'message' => 'required']);
 
-        $party = Party::with('invited')->findOrFail($partyid);
+        $party = Party::with('invited')->findOrFail($request->input('party_id'));
 
         $this->authorize('report', $party);
 

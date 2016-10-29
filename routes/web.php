@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'users'], function
 
 Route::group(['middleware' => ['auth', 'banned'], 'prefix' => 'report'], function(){
 	Route::get('/new/{partyid}', 'ReportController@create')->name('report.new');
+	Route::post('/store', 'ReportController@store')->name('report.store');
 });
 
 Route::group(['middleware' => ['auth', 'admin', 'banned'], 'prefix' => 'admin'], function(){
