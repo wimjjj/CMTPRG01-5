@@ -30,10 +30,13 @@ a:hover {
     margin-bottom: 0;
 }
 
+.user-item {
+    padding: 5px;
+}
 .party-item:hover {
     background-color: lightgray;
 }
 
 hr {
-    margin: 0;
+    margin: 5px;
 }
