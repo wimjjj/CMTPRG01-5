@@ -32,7 +32,7 @@
                 @endforeach
             </div>
         @endif
-        
+
         {{-- Organised by me section --}}
         <div class="row dashboard-section">
             <h2>Organised by me</h2>
