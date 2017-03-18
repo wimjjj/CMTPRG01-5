@@ -1,85 +1,70 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    {{-- Organised by me section --}}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Organised by me
-    
-                    <p class="pull-right">
-                        <a href="{{ Route('party.new') }}" >new</a>
-                         |
-                        <a href="{{ ROute('party.owned') }}">all</a>
-                    </p>
-                </div>
-                <div class="panel-body">
-                    @foreach($ownedParties as $party)
-                        <div>
-                            <a href="{{ Route('party.show', ['id' => $party->id]) }}">
-                                <h3>{{{ $party->name }}}</h3>
-                            </a>
-                            <p>{{{ $party->description}}}</p>
-                        </div>
-                        <hr>
-                    @endforeach
-                </div>
-            </div>
+    <div class="container">
+        <div class="row">
+            <h1>Parties</h1>
+            <a href="{{ Route('party.new') }}" class="btn btn-default pull-right pull-up">new</a>
         </div>
-    </div>
-    
-    {{-- Attended by me section --}}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Attended by me
+        {{-- Organised by me section --}}
+        <div class="row dashboard-section">
+            <h2>Organised by me</h2>
+            <div class="btn-group">
 
-                    <a href="{{ Route('party.attended') }}" class="pull-right">all</a>
-                </div>
-                <div class="panel-body">
-                    @foreach($attendedParties as $party)
-                        <div>
-                            <a href="{{ Route('party.show', ['id' => $party->id]) }}">
-                                <h3>{{{ $party->name }}}</h3>
-                            </a>
-                            <p>{{{ $party->description}}}</p>
-                        </div>
-                        <hr>
-                    @endforeach
-                </div>
             </div>
-        </div>
-    </div>
+            @foreach($ownedParties as $party)
+                <hr>
+                <a href="{{ Route('party.show', ['id' => $party->id]) }}">
+                    <div class="party-item">
+                        <h3>{{ $party->name }}</h3>
+                        <p>{{ $party->description}}}</p>
+                    </div>
+                </a>
+            @endforeach
 
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Invitations</div>
-                <div class="panel-body">
-                    @foreach($invitedParties as $party)
-                        <div>   
-                            <div class="pull-right">
-                                <form method="post" class="pull-right" action="{{ Route('party.accept') }}">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="partyid" value="{{ $party->id }}">
-                                    <input type="submit" value="accept" class="btn btn-default">
-                                </form>
-                                <a href="{{ Route('party.leave', ['id' => $party->id]) }}" class="btn btn-danger pull-right">delete</a> 
-                                <a href="{{ route('report.new', ['partyid' => $party->id]) }}" class="btn btn-danger">
-                                    report
-                                </a>
-                            </div>
-                            <h3>{{{ $party->name }}}</h3>
-                            <p>{{{ $party->description}}}</p>
-                        </div>
-                        <hr>
-                    @endforeach
+            <hr>
+            <a href="{{ ROute('party.owned') }}" class="btn btn-link">ALL</a>
+        </div>
+
+        {{-- Attended by me section --}}
+        <div class="row dashboard-section">
+            <h2>Attended by me</h2>
+
+
+            @foreach($attendedParties as $party)
+                <hr>
+                <a href="{{ Route('party.show', ['id' => $party->id]) }}">
+                    <div class="party-item">
+                        <h3>{{ $party->name }}</h3>
+                        <p>{{ $party->description}}</p>
+                    </div>
+                </a>
+            @endforeach
+
+            <hr>
+            <a href="{{ Route('party.attended') }}" class="btn btn-link">ALL</a>
+        </div>
+
+        <div class="row dashboard-section">
+            <h2>Invitations</h2>
+            @foreach($invitedParties as $party)
+                <div>
+                    <div class="pull-right">
+                        <form method="post" class="pull-right" action="{{ Route('party.accept') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="partyid" value="{{ $party->id }}">
+                            <input type="submit" value="accept" class="btn btn-default">
+                        </form>
+                        <a href="{{ Route('party.leave', ['id' => $party->id]) }}"
+                           class="btn btn-danger pull-right">delete</a>
+                        <a href="{{ route('report.new', ['partyid' => $party->id]) }}" class="btn btn-danger">
+                            report
+                        </a>
+                    </div>
+                    <h3>{{ $party->name }}</h3>
+                    <p>{{ $party->description }}</p>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
-</div>
 @endsection
