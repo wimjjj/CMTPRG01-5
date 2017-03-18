@@ -30,7 +30,7 @@ a:hover {
     margin-bottom: 0;
 }
 
-.user-item, .task-item {
+.user-item, .task-item, .report-item {
     padding: 5px;
 }
 

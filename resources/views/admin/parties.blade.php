@@ -23,8 +23,8 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{ route('admin.parties.reports', ['partyid' => $party->id]) }}">
-                                {{ $party->reports_count }}
+                            <a href="{{ route('admin.parties.reports', ['partyid' => $party->id]) }}" class="btn btn-link">
+                                reports: {{ $party->reports_count }}
                             </a>
                         </td>
                         <td>
